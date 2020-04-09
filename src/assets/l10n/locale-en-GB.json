@@ -1,0 +1,10 @@
+{
+  "string-options": {
+    "c": "Capital first",
+    "ac": "Capital all",
+    "acf": "Capital each first",
+    "s": "Remove spaces middle",
+    "as": "Remove all extra spaces",
+    "e": "Remove extra enters"
+  }
+}

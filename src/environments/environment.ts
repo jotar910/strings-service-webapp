@@ -2,8 +2,24 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { L10nConfig } from 'angular-l10n/lib/models/l10n-config';
+
 export const environment = {
-  production: false
+  production: false,
+  apiPath: 'http://localhost:12345/',
+  l10nConfig: {
+    format: 'language-region',
+    providers: [
+      { name: 'app', asset: './assets/i18n/app' }
+    ],
+    cache: true,
+    keySeparator: '.',
+    defaultLocale: { language: 'en-US', currency: 'USD' },
+    schema: [
+      { locale: { language: 'en-US', currency: 'USD' }, dir: 'ltr', text: 'United States' },
+      { locale: { language: 'it-IT', currency: 'EUR' }, dir: 'ltr', text: 'Italia' }
+    ]
+  }
 };
 
 /*
