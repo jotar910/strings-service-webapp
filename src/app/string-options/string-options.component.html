@@ -46,8 +46,12 @@
     </button>
   </div>
   <div class="result-modal-body modal-body-dark modal-body d-flex flex-column">
-    <ng-container *ngIf="result$ | async as result; else waitResult">
-      <textarea class="result-textarea flex-grow-1" disabled [value]="result"></textarea>
+    <ng-container *ngIf="!isLoading; else loading">
+      <ng-container *ngIf="!errorMessageKey; else error">
+        <ng-container *ngIf="result; else empty">
+          <textarea class="result-textarea flex-grow-1" disabled [value]="result"></textarea>
+        </ng-container>
+      </ng-container>
     </ng-container>
   </div>
   <div class="modal-footer modal-footer-dark">
@@ -57,16 +61,23 @@
   </div>
 </ng-template>
 
-<ng-template #waitResult>
-  <div *ngIf="isLoading" class="loading-container">
+<ng-template #error>
+  <div class="alert alert-danger error-container">
+    {{errorMessageKey | translate:locale.language}}
+  </div>
+</ng-template>
+
+<ng-template #empty>
+  <div class="alert alert-danger error-container">
+    {{errorMessageKey | translate:locale.language}}
+  </div>
+  <div>{{"string-options.result.empty" | translate:locale.language}}</div>
+</ng-template>
+
+<ng-template #loading>
+  <div class="loading-container">
     <div class="spinner-border text-primary m-auto" role="status">
       <span class="sr-only">Loading...</span>
     </div>
-  </div>
-  <div *ngIf="!isLoading && errorMessageKey" class="alert alert-danger error-container">
-    {{errorMessageKey | translate:locale.language}}
-  </div>
-  <div *ngIf="!isLoading && !errorMessageKey">
-    {{"string-options.result.empty" | translate:locale.language}}
   </div>
 </ng-template>

@@ -6,7 +6,7 @@ import { L10nConfig } from 'angular-l10n/lib/models/l10n-config';
 
 export const environment = {
   production: false,
-  apiPath: 'http://localhost:12345/',
+  apiPath: 'http://34.71.185.166:5000',
   l10nConfig: {
     format: 'language-region',
     providers: [

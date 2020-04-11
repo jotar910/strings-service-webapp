@@ -1,12 +1,12 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Inject, OnInit, TemplateRef } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { L10N_LOCALE, L10nLocale } from 'angular-l10n';
 import { cloneDeep } from 'lodash';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { SelectItemModel } from '../shared/models/select-item.model';
@@ -21,7 +21,7 @@ import { StringOptionsService } from '../shared/string-options/string-options.se
   templateUrl: './string-options.component.html',
   styleUrls: ['./string-options.component.scss']
 })
-export class StringOptionsComponent implements OnInit {
+export class StringOptionsComponent implements OnInit, OnDestroy {
 
   /**
    * The immutable string options items available.
@@ -44,27 +44,30 @@ export class StringOptionsComponent implements OnInit {
   errorMessageKey: string;
 
   /**
-   * The result observable to listen to transformation results-
+   * The result text value-
    */
-  result$: Observable<string>;
+  result: string;
 
   /**
    * The transformation form group.
    */
   formGroup: FormGroup;
 
+  private resultSubscription: Subscription;
+
   constructor(@Inject(L10N_LOCALE) public locale: L10nLocale, private modalService: NgbModal,
               private readonly stringOptionsService: StringOptionsService) {
-    this.result$ = stringOptionsService.resultObservable.pipe(
-      catchError((error: HttpErrorResponse) => {
-        console.error(error);
-        this.errorMessageKey = 'string-options.result.error';
-        return new Observable((resolve) => resolve.next(null));
-      }),
-      tap((_: string) => {
+    this.resultSubscription = stringOptionsService.resultObservable.subscribe(
+      (res: string) => {
+        this.result = res;
         this.errorMessageKey = null;
         this.isLoading = false;
-      }));
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.errorMessageKey = 'string-options.result.error';
+      }
+    );
   }
 
   /**
@@ -77,6 +80,13 @@ export class StringOptionsComponent implements OnInit {
       value: stringOption
     }));
     this.stringOptionsChain = [];
+  }
+
+  /**
+   * Handles component destruction.
+   */
+  ngOnDestroy(): void {
+    this.resultSubscription.unsubscribe();
   }
 
   /**
