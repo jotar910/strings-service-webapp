@@ -1,1 +1,88 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/scss/bootstrap";
+
+$primary-color: #07973B;
+$bg-dark-1: #303030;
+$bg-dark-2: #424242;
+$bg-dark-3: #727272;
+
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: $bg-dark-1;
+  display: flex;
+  min-height: 100vh;
+
+  > * {
+    width: 100%;
+  }
+}
+
+h1, h2 {
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
+span, p {
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.8765rem;
+  font-weight: 300;
+}
+
+label {
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2rem;
+}
+
+.border-primary {
+  border: 1px solid #22D3A7 !important;
+}
+
+.btn-primary {
+  background: $primary-color !important;
+  border: 1px solid $primary-color !important;
+}
+
+.box-shadow-primary {
+  box-shadow: 0 3px 6px rgba(150, 150, 150, 0.16), 0 3px 6px rgba(100, 100, 100, 0.23);
+}
+
+.modal-content {
+  border: 1px solid $bg-dark-3 !important;
+  min-height: 300px;
+}
+
+.modal-header-dark {
+  background: $bg-dark-1;
+  border-bottom-color: $bg-dark-3;
+  color: white;
+}
+
+.modal-body-dark {
+  background: $bg-dark-1;
+  color: white;
+}
+
+.modal-footer-dark {
+  background: $bg-dark-1;
+  border-top-color: $bg-dark-3;
+  color: white;
+}
+
+.text-primary {
+  color: $primary-color !important;
+}
+
+@media (min-width: $breakpoint-lg) {
+  .w-lg-60 {
+    width: 60% !important;
+  }
+}

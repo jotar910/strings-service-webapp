@@ -1,10 +1,31 @@
 {
+  "title": "String Transform",
   "string-options": {
-    "c": "Capital first",
-    "ac": "Capital all",
-    "acf": "Capital each first",
-    "s": "Remove spaces middle",
-    "as": "Remove all extra spaces",
-    "e": "Remove extra enters"
+    "options-title": "Options",
+    "sequence-title": "Sequence",
+    "form": {
+      "input-text": {
+        "label": "Introduce text:"
+      },
+      "submit": {
+        "label": "Submit"
+      }
+    },
+    "result": {
+      "close": "Close",
+      "error": "Error trying to transform the string! Please try again later...",
+      "empty": "The string transformed is empty..."
+    },
+    "options": {
+      "c": "Capital first",
+      "ac": "Capital all",
+      "acf": "Capital each first",
+      "l": "Minuscule first",
+      "al": "Minuscule all",
+      "afl": "Minuscule each first",
+      "s": "Remove spaces middle",
+      "as": "Remove all extra spaces",
+      "e": "Remove extra enters"
+    }
   }
 }

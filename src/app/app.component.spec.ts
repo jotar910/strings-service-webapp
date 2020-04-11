@@ -1,31 +1,39 @@
-import { TestBed, async } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { L10nLoader } from 'angular-l10n';
+
 import { AppComponent } from './app.component';
+import { AppModuleDefinitions } from './shared/tests/app-module-config';
+
+@Component({ selector: 'app-string-options-mock', template: '' })
+class StringOptionsMockComponent {
+}
 
 describe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
+    TestBed.configureTestingModule(new AppModuleDefinitions()
+      .addDeclarations(StringOptionsMockComponent)
+      .addImports(RouterTestingModule.withRoutes([{ path: '', component: StringOptionsMockComponent }]))
+      .appModuleDefinitions);
   }));
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  });
+  beforeEach(async(() => {
+    const loader: L10nLoader = TestBed.inject(L10nLoader);
+    loader.init();
+  }));
 
-  it(`should have as title 'strings-service'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('strings-service');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('strings-service app is running!');
+  });
+
+  it('should create the app', () => {
+    expect(component).toBeTruthy();
   });
 });

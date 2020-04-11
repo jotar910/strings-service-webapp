@@ -1,4 +1,72 @@
-<h1>String Options</h1>
-<div *ngFor="let stringOption of stringOptions">
-  <div>{{stringOption.label | translate:locale.language}}</div>
+<div class="p-4">
+  <form [formGroup]="formGroup" class="w-100 w-lg-60 p-2">
+    <div class="form-group">
+      <label>{{"string-options.form.input-text.label" | translate:locale.language}}</label>
+      <textarea rows="5" class="border-primary box-shadow-primary form-control"
+                name="text" formControlName="text"></textarea>
+    </div>
+    <div class="form-group">
+      <button type="button" class="btn btn-primary w-100"
+              [disabled]="formGroup.invalid || formGroup.pristine"
+              (click)="submit(modalContent)">
+        {{"string-options.form.submit.label" | translate:locale.language}}
+      </button>
+    </div>
+  </form>
+  <div class="lists-container">
+    <div class="list-wrapper">
+      <h2>{{"string-options.options-title" | translate:locale.language}}</h2>
+      <div class="list box-shadow-primary" cdkDropList #stringOptionsList="cdkDropList"
+           [cdkDropListData]="stringOptions" [cdkDropListConnectedTo]="[stringOptionsChainList]"
+           (cdkDropListDropped)="onDrag($event, true, false)">
+        <div class="item" cdkDrag *ngFor="let stringOption of stringOptions">
+          <span>{{stringOption.label | translate:locale.language}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="list-wrapper">
+      <h2>{{"string-options.sequence-title" | translate:locale.language}}</h2>
+      <div class="list box-shadow-primary" cdkDropList #stringOptionsChainList="cdkDropList"
+           [cdkDropListData]="stringOptionsChain" [cdkDropListConnectedTo]="[stringOptionsList]"
+           (cdkDropListDropped)="onDrag($event, false, true)">
+        <div class="item" cdkDrag *ngFor="let stringOption of stringOptionsChain; let i = index">
+          <span>#{{i + 1}} </span>
+          <span>{{stringOption.label | translate:locale.language}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<ng-template #modalContent let-modal>
+  <div class="modal-header modal-header-dark">
+    <h4 class="modal-title">String Result</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="result-modal-body modal-body-dark modal-body d-flex flex-column">
+    <ng-container *ngIf="result$ | async as result; else waitResult">
+      <textarea class="result-textarea flex-grow-1" disabled [value]="result"></textarea>
+    </ng-container>
+  </div>
+  <div class="modal-footer modal-footer-dark">
+    <button type="button" class="btn btn-primary" (click)="modal.close()">
+      {{"string-options.result.close" | translate:locale.language}}
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #waitResult>
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner-border text-primary m-auto" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <div *ngIf="!isLoading && errorMessageKey" class="alert alert-danger error-container">
+    {{errorMessageKey | translate:locale.language}}
+  </div>
+  <div *ngIf="!isLoading && !errorMessageKey">
+    {{"string-options.result.empty" | translate:locale.language}}
+  </div>
+</ng-template>

@@ -1,0 +1,66 @@
+@import '../../styles';
+
+.lists-container {
+  align-items: stretch;
+  display: flex;
+  flex-wrap: wrap;
+
+  .list-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+    padding: 10px;
+    width: 100%;
+
+    .list {
+      border-radius: 4px;
+      background: $bg-dark-2;
+      flex-grow: 1;
+      padding: 10px;
+      width: 100%;
+
+      .item {
+        color: white;
+        border-radius: 3px;
+        background: $bg-dark-3;
+        font-weight: 500;
+        padding: 10px;
+        margin: 10px auto;
+      }
+    }
+  }
+}
+
+.result-textarea {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: text;
+  height: 100%;
+  resize: none;
+  width: 100%;
+}
+
+.result-modal-body {
+  min-height: 450px;
+
+  .loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+  }
+
+  .error-container {
+    align-self: center;
+    width: 100%;
+  }
+}
+
+@media (min-width: $breakpoint-md) {
+  .lists-container {
+    .list-wrapper {
+      width: 50%;
+    }
+  }
+}
